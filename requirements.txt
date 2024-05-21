@@ -3,4 +3,4 @@ protobuf
 keelson==0.3.4
 pyserial
 opencv-python
-vidgear[core]
+git+https://github.com/abhiTronix/vidgear@97576#egg=vidgear
