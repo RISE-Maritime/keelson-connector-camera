@@ -53,6 +53,10 @@ def terminal_inputs():
         required=False,
     )
 
+    parser.add_argument(
+        "-f", "--frame-id", type=str, default=None, required=False
+    )
+
 
 
     ## Parse arguments and start doing our thing

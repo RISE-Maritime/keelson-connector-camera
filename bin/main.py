@@ -70,9 +70,17 @@ if __name__ == "__main__":
 
     logging.info("Converting to frames from source url: %s", args.camera)
 
+    # define suitable tweak parameters for your stream.
+    options = {
+        "CAP_PROP_FRAME_WIDTH": 320, # resolution 320x240
+        "CAP_PROP_FRAME_HEIGHT": 240,
+        "CAP_PROP_FPS": 60, # framerate 60fps
+    }
+
     
     # Opening a VideoCapture object using the supplied url
-    stream  = CamGear(source=args.camera, logging=True).start() 
+    # stream  = CamGear(source=args.camera, logging=True).start() 
+    stream  = CamGear(source=args.camera, logging=True, **options).start() 
 
     logging.info("Source fps: %s", stream.framerate)
 
