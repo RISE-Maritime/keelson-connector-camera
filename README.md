@@ -4,10 +4,10 @@ TODO:
 
 Keelson processor for creating an realtime panorama image based on multiple camera sensors 
 
-## Quick start 
+## Quick start
 
 ```bash
-python3 bin/main.py --log-level 10 -e boatswain --trigger-sub rise/v0/boatswain/pubsub/compressed_image/axis-1 --camera-query rise/v0/boatswain/pubsub/compressed_image/*
+python3 bin/main.py --log-level 10 -r rise -e boatswain -s axis-1 --camera rtsp://root:prepare@10.10.20.2/axis-media/media.amp?camera=1 --send jpeg
 ```
 
 

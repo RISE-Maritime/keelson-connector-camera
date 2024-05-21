@@ -3,5 +3,5 @@ protobuf
 keelson==0.3.1-pre.20
 pyserial
 eclipse-zenoh==0.10.1-rc0
-opencv-python  
+opencv-python==4.9.0.80
 vidgear[core]
