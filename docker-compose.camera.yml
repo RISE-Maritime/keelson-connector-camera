@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
 
-  zenoh-router:
+  camera-1:
     build: .
     container_name: keelson-connector-camera
     restart: unless-stopped
