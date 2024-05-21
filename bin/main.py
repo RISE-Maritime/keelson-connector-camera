@@ -72,16 +72,19 @@ if __name__ == "__main__":
 
     
     # Opening a VideoCapture object using the supplied url
-    stream  = CamGear(source=args.camera).start() 
+    stream  = CamGear(source=args.camera, logging=True).start() 
+
+    logging.info("Source fps: %s", stream.framerate)
+
 
     try:
         
         while True:
             
-            (grabbed, frame) = stream.read()
+            frame = stream.read()
             ingress_timestamp = time.time_ns()
 
-            if not grabbed:
+            if frame is None:
                 logging.error("No frames returned from the stream. Exiting!")
                 break
 
