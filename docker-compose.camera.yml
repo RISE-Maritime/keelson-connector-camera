@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+
+  zenoh-router:
+    build: .
+    container_name: keelson-connector-camera
+    restart: unless-stopped
+    network_mode: "host"
+    privileged: true
+    command: "-r rise --log-level 10"
+    
