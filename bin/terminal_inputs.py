@@ -37,7 +37,6 @@ def terminal_inputs():
 
     parser.add_argument("-s", "--source-id", type=str, required=False)
 
-
     parser.add_argument(
         "-c",
         "--camera",
@@ -46,18 +45,13 @@ def terminal_inputs():
     )
 
     parser.add_argument(
-        "-se",
         "--send",
         choices=["raw", "webp", "jpeg", "png"],
         type=str,
         required=False,
     )
 
-    parser.add_argument(
-        "-f", "--frame-id", type=str, default=None, required=False
-    )
-
-
+    parser.add_argument("-f", "--frame-id", type=str, default=None, required=False)
 
     ## Parse arguments and start doing our thing
     args = parser.parse_args()
