@@ -8,5 +8,5 @@ services:
     restart: unless-stopped
     network_mode: "host"
     privileged: true
-    command: "-r rise --log-level 10"
+    command: "--log-level 10 -r rise -e boatswain -s axis-1 --camera rtsp://root:prepare@10.10.20.2/axis-media/media.amp?camera=1 --send jpeg"
     
