@@ -57,7 +57,7 @@ if __name__ == "__main__":
         realm=args.realm,
         entity_id=args.entity_id,
         subject="compressed_image",  # Needs to be a supported subject
-        source_id="panorama/" + args.output_id,
+        source_id=args.source_id,
     )
     pub_camera = session.declare_publisher(
         key_exp_pub_camera,

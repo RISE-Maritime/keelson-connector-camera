@@ -35,6 +35,8 @@ def terminal_inputs():
         help="Entity being a unique id representing an entity within the realm ex, landkrabba",
     )
 
+    parser.add_argument("-s", "--source-id", type=str, required=False)
+
 
     parser.add_argument(
         "-c",
