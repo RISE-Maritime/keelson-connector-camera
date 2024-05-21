@@ -168,12 +168,8 @@ if __name__ == "__main__":
             #     filename = f"./rec/{ingress_iso}_{args.source_id}.{args.save}"
             #     cv2.imwrite(filename, img)
 
-            # Doing some calculations to see if we manage to keep up with the framerate
-            now = time.time()
-            processing_frame_rate = now - previous
-            previous = now
-
-    
+   
+         
 
     except KeyboardInterrupt:
         logging.info("Closing down on user request!")
