@@ -1,5 +1,4 @@
 import zenoh
-from zenoh import QueryTarget
 import logging
 import warnings
 import atexit
