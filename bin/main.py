@@ -74,46 +74,27 @@ if __name__ == "__main__":
     # Opening a VideoCapture object using the supplied url
     stream  = CamGear(source=args.camera).start() 
 
-
-    buffer = deque(maxlen=1)
-    close_down = Event()
-
-    def _capturer():
+    try:
         
-        while stream.isOpened() and not close_down.is_set():
+        while True:
             
             (grabbed, frame) = stream.read()
             ingress_timestamp = time.time_ns()
 
             if not grabbed:
                 logging.error("No frames returned from the stream. Exiting!")
-                return
+                break
 
             logging.info("Got new frame, at time: %d", ingress_timestamp)
 
             height, width, _ = frame.shape
             logging.debug("with height: %d, width: %d", height, width)
 
-            buffer.append((ingress_timestamp, frame))
-
-    # Start capture thread
-    t = Thread(target=_capturer)
-    t.daemon = True
-    t.start()
-
-    try:
-        previous = time.time()
-        while True:
-            try:
-                ingress_timestamp, img = buffer.pop()
-            except IndexError:
-                time.sleep(0.01)
-                continue
 
             logging.debug("Processing raw frame")
 
-            height, width, _ = img.shape
-            data = img.tobytes()
+            height, width, _ = frame.shape
+            data = frame.tobytes()
 
             width_step = len(data) // height
             logging.debug(
@@ -143,7 +124,7 @@ if __name__ == "__main__":
             if args.send in supported_formats:
                 logging.debug(f"SEND {args.send} frame...")
                 _, compressed_img = cv2.imencode(  # pylint: disable=no-member
-                    MCAP_TO_OPENCV_ENCODINGS[args.send], img
+                    MCAP_TO_OPENCV_ENCODINGS[args.send], frame
                 )
                 compressed_img = numpy.asarray(compressed_img)
                 data = compressed_img.tobytes()
@@ -181,17 +162,10 @@ if __name__ == "__main__":
             processing_frame_rate = now - previous
             previous = now
 
-            logging.info(
-                "Processing framerate: %.2f (%d%% of native)",
-                processing_frame_rate,
-                100 * (processing_frame_rate / fps),
-            )
+    
 
     except KeyboardInterrupt:
         logging.info("Closing down on user request!")
-
-        logging.debug("Joining capturer thread...")
-        close_down.set()
-        t.join()
+        stream.stop()
 
         logging.debug("Done! Good bye :)")
