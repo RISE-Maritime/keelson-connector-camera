@@ -140,6 +140,7 @@ if __name__ == "__main__":
                 data = compressed_img.tobytes()
 
                 payload = CompressedImage()
+                payload.timestamp.FromNanoseconds(ingress_timestamp)
                 if args.frame_id is not None:
                     payload.frame_id = args.frame_id
                 payload.data = data
