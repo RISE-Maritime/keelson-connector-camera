@@ -38,7 +38,7 @@ Setup for development environment on your own computer:
    1) Install package `pip install -r requirements.txt`
 3)  Now you are ready to explore some example scripts in the [exploration folder](./exploration/) 
     1)  Sample are coming from:
-         -   [Zenoh Python API ](https://zenoh-python.readthedocs.io/en/0.10.1-rc/#quick-start-examples)
+         - [Zenoh Python API ](https://zenoh-python.readthedocs.io/en/0.10.1-rc/#quick-start-examples)
 
 
 [Zenoh CLI for debugging and problem solving](https://github.com/RISE-Maritime/zenoh-cli)
