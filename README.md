@@ -1,13 +1,11 @@
 # Keelson Connector Camera
 
-TODO:
-
-Keelson processor for creating an realtime panorama image based on multiple camera sensors 
+Keelson processor for conecting genral cameras as frames 
 
 ## Quick start
 
-```bash
-python3 bin/main.py --log-level 10 -r rise -e boatswain -s axis-1 --camera rtsp://root:prepare@10.10.20.2/axis-media/media.amp?camera=1 --send jpeg
+```sh
+python3 bin/main.py --log-level 10 -r rise -e boatswain -s axis-1 --camera rtsp://root:RISE@193.168.3.11/axis-media/media.amp?camera=1 --send jpeg
 ```
 
 

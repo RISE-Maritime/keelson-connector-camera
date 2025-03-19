@@ -38,10 +38,11 @@ def terminal_inputs():
     parser.add_argument("-s", "--source-id", type=str, required=False)
 
     parser.add_argument(
-        "-c",
-        "--camera",
+        "-u",
+        "--cam-url",
         type=str,
-        help="Device or URL to camera anything supported by VidGear",
+        required=True,
+        help="RTSP URL or any other video source that OpenCV can handle",
     )
 
     parser.add_argument(

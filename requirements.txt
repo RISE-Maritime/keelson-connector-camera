@@ -1,6 +1,6 @@
-environs==11.0.0
+environs==14.1.1
 protobuf
-keelson==0.3.4
+keelson==0.3.9rc15
 pyserial
 opencv-python
 git+https://github.com/abhiTronix/vidgear@97576#egg=vidgear
