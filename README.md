@@ -1,11 +1,13 @@
 # Keelson Connector Camera
 
-Keelson processor for conecting genral cameras as frames 
+Keelson processor for connecting general cameras as frames.
+
+Provides an interface to rtsp video streams, it uses OpenCV so other sources compatible with `cv2.VideoCapture(args.url)` are possible but might not be fully compatible. Outputs raw or compressed image frames to a keelson topic.
 
 ## Quick start
 
 ```sh
-python3 bin/main.py --log-level 10 -r rise -e boatswain -s axis-1 --camera rtsp://root:RISE@193.168.3.11/axis-media/media.amp?camera=1 --send jpeg
+python3 bin/main.py --log-level 10 -r rise -e storakrabban -s axis-1 --camera-url rtsp://root:RISE2020@192.168.3.11/axis-media/media.amp?camera=1 --send jpeg
 ```
 
 

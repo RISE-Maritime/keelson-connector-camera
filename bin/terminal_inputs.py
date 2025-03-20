@@ -39,7 +39,7 @@ def terminal_inputs():
 
     parser.add_argument(
         "-u",
-        "--cam-url",
+        "--camera-url",
         type=str,
         required=True,
         help="RTSP URL or any other video source that OpenCV can handle",
@@ -51,6 +51,22 @@ def terminal_inputs():
         type=str,
         required=False,
     )
+
+    parser.add_argument(
+        "--save",
+        choices=["raw", "webp", "jpeg", "png"],
+        type=str,
+        required=False,
+    )
+
+    parser.add_argument(
+        "--save-path",
+        default="./rec",
+        choices=["raw", "webp", "jpeg", "png"],
+        type=str,
+        required=False,
+    )
+
 
     parser.add_argument("-f", "--frame-id", type=str, default=None, required=False)
 

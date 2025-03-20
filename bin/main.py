@@ -1,14 +1,12 @@
 import zenoh
 import logging
 import warnings
-import atexit
 import json
 import time
 import datetime
 import keelson
 from terminal_inputs import terminal_inputs
-from keelson.payloads.Image_pb2 import ImageCompressed, ImageRaw
-from vidgear.gears import CamGear
+from keelson.payloads.Image_pb2 import CompressedImage, RawImage
 import cv2
 import numpy
 from collections import deque
@@ -75,10 +73,10 @@ if __name__ == "__main__":
         )
         logging.info(f"Created publisher: {keyexp_raw}")
 
-        logging.info("Camera source: %s", args.cam_url)
+        logging.info("Camera source: %s", args.camera_url)
 
         # Opening a VideoCapture object using the supplied url
-        cap = cv2.VideoCapture(args.cam_url) 
+        cap = cv2.VideoCapture(args.camera_url) 
         fps = cap.get(cv2.CAP_PROP_FPS)  
         logging.info("Native framerate of stream: %s", fps)
         buffer = deque(maxlen=1)
@@ -128,7 +126,7 @@ if __name__ == "__main__":
                 if args.send == "raw":
                     logging.debug("Send RAW frame...")
                     # Create payload for raw image
-                    payload = ImageRaw()
+                    payload = RawImage()
                     payload.timestamp.FromNanoseconds(ingress_timestamp)
                     if args.frame_id is not None:
                         payload.frame_id = args.frame_id
@@ -152,7 +150,7 @@ if __name__ == "__main__":
                     compressed_img = numpy.asarray(compressed_img)
                     data = compressed_img.tobytes()
 
-                    payload = ImageCompressed()
+                    payload = CompressedImage()
                     if args.frame_id is not None:
                         payload.frame_id = args.frame_id
                     payload.data = data
@@ -178,7 +176,7 @@ if __name__ == "__main__":
                     # Convert the datetime object to an ISO format string
                     ingress_iso = ingress_datetime.strftime(
                         "%Y-%m-%dT%H%M%S-%fZ%z")
-                    filename = f"./rec/{ingress_iso}_{args.source_id}.{args.save}"
+                    filename = f"{args.save_path}/{ingress_iso}_{args.source_id}.{args.save}"
                     cv2.imwrite(filename, img)
 
                 # Doing some calculations to see if we manage to keep up with the framerate
@@ -198,97 +196,7 @@ if __name__ == "__main__":
             logging.debug("Joining capturer thread...")
             close_down.set()
             t.join()
+            
+            logging.debug(f"Done! Good bye :)")
 
-            logging.debug("Done! Good bye :)")
-
-        # # define suitable tweak parameters for your stream.
-        # options = {
-        #     "CAP_PROP_FRAME_WIDTH": 320, # resolution 320x240
-        #     "CAP_PROP_FRAME_HEIGHT": 240,
-        #     "CAP_PROP_FPS": 60, # framerate 60fps
-        # }
-
-        # stream  = CamGear(source=args.camera, logging=True, **options).start()
-
-        # logging.info("Source fps: %s", stream.framerate)
-
-        # try:
-
-        #     while True:
-
-        #         frame = stream.read()
-        #         ingress_timestamp = time.time_ns()
-
-        #         if frame is None:
-        #             logging.error("No frames returned from the stream. Exiting!")
-        #             break
-
-        #         logging.info("Got new frame, at time: %d", ingress_timestamp)
-
-        #         height, width, _ = frame.shape
-        #         logging.debug("with height: %d, width: %d", height, width)
-
-        #         logging.debug("Processing raw frame")
-
-        #         height, width, _ = frame.shape
-        #         data = frame.tobytes()
-
-        #         width_step = len(data) // height
-        #         logging.debug(
-        #             "Frame total byte length: %d, widthstep: %d", len(data), width_step
-        #         )
-
-        #         # if args.send == "raw":
-        #         #     logging.debug("Send RAW frame...")
-        #         #     # Create payload for raw image
-        #         #     payload = RawImage()
-        #         #     payload.timestamp.FromNanoseconds(ingress_timestamp)
-        #         #     if args.frame_id is not None:
-        #         #         payload.frame_id = args.frame_id
-        #         #     payload.width = width
-        #         #     payload.height = height
-        #         #     payload.encoding = "bgr8"  # Default in OpenCV
-        #         #     payload.step = width_step
-        #         #     payload.data = data
-
-        #         #     serialized_payload = payload.SerializeToString()
-        #         #     envelope = keelson.enclose(serialized_payload)
-        #         #     raw_publisher.put(envelope)
-        #         #     logging.debug(f"...published on {raw_key}")
-
-        #         if args.send in supported_formats:
-        #             logging.debug(f"SEND {args.send} frame...")
-        #             _, compressed_img = cv2.imencode(  # pylint: disable=no-member
-        #                 MCAP_TO_OPENCV_ENCODINGS[args.send], frame
-        #             )
-        #             compressed_img = numpy.asarray(compressed_img)
-        #             data = compressed_img.tobytes()
-
-        #             payload = CompressedImage()
-        #             if args.frame_id is not None:
-        #                 payload.frame_id = args.frame_id
-        #             payload.data = data
-        #             payload.format = args.send
-
-        #             serialized_payload = payload.SerializeToString()
-        #             envelope = keelson.enclose(serialized_payload)
-        #             pub_camera.put(envelope)
-        #             logging.debug(f"...published on {key_exp_pub_camera}")
-
-        #         # if args.save == "raw":
-        #         #     logging.debug("Saving raw frame...")
-        #         #     filename = f'{ingress_timestamp}_"bgr8".raw'
-        #         #     cv2.imwrite(filename, img)
-
-        #         # if args.save in supported_formats:
-        #         #     logging.debug(f"Saving {args.save} frame...")
-        #         #     ingress_timestamp_seconds = ingress_timestamp / 1e9
-        #         #     # Create a datetime object from the timestamp
-        #         #     ingress_datetime = datetime.datetime.fromtimestamp(
-        #         #         ingress_timestamp_seconds
-        #         #     )
-        #         #     # Convert the datetime object to an ISO format string
-        #         #     ingress_iso = ingress_datetime.strftime("%Y-%m-%dT%H%M%S-%fZ%z")
-        #         #     filename = f"./rec/{ingress_iso}_{args.source_id}.{args.save}"
-        #         #     cv2.imwrite(filename, img)
-
+    
