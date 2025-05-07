@@ -6,7 +6,8 @@ import time
 import datetime
 import keelson
 from terminal_inputs import terminal_inputs
-from keelson.payloads.Image_pb2 import CompressedImage, RawImage
+from keelson.payloads.foxglove.CompressedImage_pb2 import CompressedImage
+from keelson.payloads.foxglove.RawImage_pb2 import RawImage
 import cv2
 import numpy
 from collections import deque
@@ -47,7 +48,7 @@ if __name__ == "__main__":
 
         # Camera COMPRESSED IMAGE
         keyexp_comp = keelson.construct_pubsub_key(
-            realm=args.realm,
+            base_path=args.realm,
             entity_id=args.entity_id,
             subject="image_compressed",  # Needs to be a supported subject
             source_id=args.source_id,
@@ -61,7 +62,7 @@ if __name__ == "__main__":
 
         # Camera RAW IMAGE
         keyexp_raw = keelson.construct_pubsub_key(
-            realm=args.realm,
+            base_path=args.realm,
             entity_id=args.entity_id,
             subject="image_raw",
             source_id=args.source_id,

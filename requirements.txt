@@ -1,6 +1,6 @@
 environs==14.1.1
 protobuf
-keelson==0.3.9rc17
+keelson==0.4.2
 pyserial
 opencv-python
 
