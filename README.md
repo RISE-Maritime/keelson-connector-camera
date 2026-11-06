@@ -1,3 +1,7 @@
+**SUPERSEDED BY https://github.com/RISE-Maritime/keelson/tree/main/connectors/camera**
+
+This repository is archived (RISE-Maritime/keelson#247). The connector lives on in the keelson monorepo and ships in the `ghcr.io/rise-maritime/keelson` image; images published from here stay pullable but get no fixes.
+
 # Keelson Connector Camera
 
 Keelson processor for connecting general cameras as frames.
